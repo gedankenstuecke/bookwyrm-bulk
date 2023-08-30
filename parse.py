@@ -1,10 +1,16 @@
 import requests
 from bs4 import BeautifulSoup
+from olclient.openlibrary import OpenLibrary
+import olclient.common as common
+import time
+
+
+# Initialize OpenLibrary
+ol = OpenLibrary()
 
 # read publication dates 
 # copy & pasted into file from publisher website
 # misses current year
-
 publication_dates = {}
 
 for i in open("publications.csv"):
@@ -42,7 +48,16 @@ for book in soup.find_all("div", {"class":"ProductList-item"}):
                 year = publication_dates[search]
             else:
                 year = "2023"
-
-            print("{}\t{}\t{}\t{}".format(
-                author, title, cover, year
-            ))
+            if title not in ['Alexandra Road Estate', 'Rush Hour London Underground 1973', 'Along the Thames']:
+                print("creating {}\t{}\t{}\t{}".format(
+                    author, title, cover, year
+                ))
+                response = ol.session.post("https://openlibrary.org/books/add",data={
+                    'title': title,
+                    'author_names--0': author,
+                    'authors--0--author--key': '__new__',
+                    'publish_date': year,
+                    'publisher': 'Café Royal Books',
+                    '_save': ''})
+                print(response)
+                time.sleep(1)
