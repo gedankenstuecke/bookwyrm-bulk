@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "bookwyrm-bulk"
+version = "0.1.0"
+description = ""
+authors = ["Bastian Greshake Tzovaras <bgreshake@googlemail.com>"]
+readme = "README.md"
+packages = [{include = "bookwyrm_bulk"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+beautifulsoup4 = "^4.12.2"
+openlibrary-client = {git = "https://github.com/gedankenstuecke/openlibrary-client.git"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
